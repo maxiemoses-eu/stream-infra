@@ -30,3 +30,10 @@ module "ecr" {
   env    = var.env
   repos  = var.ecr_repos
 }
+
+module "s3_backend" {
+  source          = "./modules/s3_backend"
+  env             = var.env
+  bucket_name     = var.bucket_name
+  lock_table_name = var.lock_table_name
+}
