@@ -1,33 +1,31 @@
-resource "aws_eks_cluster" "main" {
-  name     = "${var.env}-eks-cluster"
-  role_arn = var.cluster_role_arn
-
-  vpc_config {
-    subnet_ids = var.private_subnet_ids
-  }
-
-  tags = {
-    Environment = var.env
-  }
+variable "env" {
+  type = string
 }
 
-resource "aws_eks_node_group" "default" {
-  cluster_name    = aws_eks_cluster.main.name
-  node_group_name = "${var.env}-node-group"
-  node_role_arn   = var.node_role_arn
-  subnet_ids      = var.private_subnet_ids
+variable "private_subnet_ids" {
+  type = list(string)
+}
 
-  scaling_config {
-    desired_size = var.node_desired_size
-    min_size     = var.node_min_size
-    max_size     = var.node_max_size
-  }
+variable "cluster_role_arn" {
+  type = string
+}
 
-  instance_types = var.instance_types
+variable "node_role_arn" {
+  type = string
+}
 
-  tags = {
-    Environment = var.env
-  }
+variable "node_desired_size" {
+  type = number
+}
 
-  depends_on = [aws_eks_cluster.main]
+variable "node_min_size" {
+  type = number
+}
+
+variable "node_max_size" {
+  type = number
+}
+
+variable "instance_types" {
+  type = list(string)
 }
